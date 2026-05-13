@@ -53,8 +53,8 @@
         <a href="kontakt.html">Kontakt</a>
       </div>
       <div class="nav-actions">
-        <a class="button button-red" href="kontakt.html">
-          <span class="material-symbols-outlined" aria-hidden="true">calendar_month</span>Beratung buchen
+        <a class="button button-red" href="https://calendly.com/elektro-ritz-koblenz/beratung" target="_blank" rel="noopener noreferrer">
+          <span class="material-symbols-outlined" aria-hidden="true">calendar_month</span>Besichtigung buchen
         </a>
       </div>
       <button class="nav-toggle" id="nav-toggle" type="button" aria-controls="mobile-menu" aria-expanded="false" aria-label="Men&uuml; &ouml;ffnen">
@@ -67,7 +67,7 @@
       <a href="ueber-uns.html">&Uuml;ber uns</a>
       <a href="referenzen.html">Referenzen</a>
       <a href="kontakt.html">Kontakt</a>
-      <a class="button button-red" href="kontakt.html">Beratung buchen</a>
+      <a class="button button-red" href="https://calendly.com/elektro-ritz-koblenz/beratung" target="_blank" rel="noopener noreferrer">Besichtigung buchen</a>
     </div>
   </header>
 
@@ -82,11 +82,11 @@
       <div class="container hero-inner">
         <div class="hero-copy">
           <p class="eyebrow">Meisterbetrieb in Koblenz</p>
-          <h1>Elektro Meister Ritz</h1>
-          <p class="hero-lead">Franz Ritz gr&uuml;ndete diesen Betrieb 2012 mit einem Grunds&auml;tz: Kein Projekt beginnt ohne Plan, kein Angebot kommt ohne Vor-Ort-Termin. In Koblenz und Umland bekannt daf&uuml;r, dass die Arbeit stimmt &ndash; und dass man danach keinen Grund hat anzurufen.</p>
+          <h1>Seit 2012 installieren wir Elektro in Koblenz. Sicher. Normgerecht. Fertig.</h1>
+          <p class="hero-lead">Ich bin Elektriker aus Leidenschaft &mdash; kein Subunternehmer, kein Raten am Telefon, kein Chaos auf der Baustelle.</p>
           <div class="hero-actions">
-            <a class="button button-red" href="kontakt.html">
-              <span class="material-symbols-outlined" aria-hidden="true">calendar_month</span>Beratung buchen
+            <a class="button button-red" href="https://calendly.com/elektro-ritz-koblenz/beratung" target="_blank" rel="noopener noreferrer">
+              <span class="material-symbols-outlined" aria-hidden="true">calendar_month</span>Besichtigung buchen
             </a>
             <a class="button button-light" href="#kostenrechner">
               <span class="material-symbols-outlined" aria-hidden="true">calculate</span>Preis berechnen
@@ -96,6 +96,7 @@
             <div class="trust-item"><strong>420+</strong><span>Projekte, sicher ausgef&uuml;hrt</span></div>
             <div class="trust-item"><strong>Seit 2012</strong><span>in Koblenz aktiv</span></div>
             <div class="trust-item"><strong>4,9</strong><span>&#9733; auf Google</span></div>
+            <div class="trust-item"><strong>VDE</strong><span>Abnahme bei jedem Auftrag</span></div>
           </div>
         </div>
       </div>
@@ -196,12 +197,12 @@
             </div>
             <div id="calcStep2" style="display:none">
               <p class="wizard-step-label">Schritt 2 von 4</p>
-              <h3 class="wizard-step-title">Wohnfl&auml;che &amp; Ausstattung</h3>
-              <label class="wizard-input-label" for="wizFlaeche">Wohnfl&auml;che / Projektgr&ouml;&szlig;e in m&sup2;</label>
-              <input id="wizFlaeche" class="wizard-input" type="number" min="1" max="2000" placeholder="z.B. 120">
-              <p class="wizard-input-label" style="margin-top:20px; margin-bottom:10px;">Ausstattungslevel</p>
-              <div class="wizard-mat-grid" id="calcMaterialCards"></div>
-              <p id="calcStep2Error" class="wizard-error">Bitte Wohnfl&auml;che eingeben und Ausstattungslevel w&auml;hlen.</p>
+              <h3 class="wizard-step-title">Projekttyp &amp; Umfang</h3>
+              <p class="wizard-input-label" style="margin-bottom:10px;">Projekttyp</p>
+              <div class="wizard-mat-grid" id="calcProjektTypCards"></div>
+              <p class="wizard-input-label" style="margin-top:20px; margin-bottom:6px;">Anzahl R&auml;ume oder Schaltpunkte: <strong id="wizUnitsLabel">5</strong></p>
+              <input id="wizUnits" type="range" min="1" max="20" value="5" style="width:100%; accent-color:#d43f3f; cursor:pointer; margin-top:4px;">
+              <p id="calcStep2Error" class="wizard-error">Bitte Projekttyp w&auml;hlen.</p>
             </div>
             <div id="calcStep3" style="display:none">
               <p class="wizard-step-label">Schritt 3 von 4</p>
@@ -218,8 +219,8 @@
                 <p class="wizard-price-output" id="wizPriceOutput">&ndash;</p>
                 <p class="wizard-price-note">Unverbindlich &middot; inkl. Material &amp; Arbeit &middot; Festpreis nach Beratung</p>
               </div>
-              <a class="button button-red" style="width:100%;justify-content:center;margin-bottom:10px;" href="kontakt.html">
-                <span class="material-symbols-outlined" aria-hidden="true">calendar_month</span>Beratungstermin buchen
+              <a class="button button-red" style="width:100%;justify-content:center;margin-bottom:10px;" href="https://calendly.com/elektro-ritz-koblenz/beratung" target="_blank" rel="noopener noreferrer">
+                <span class="material-symbols-outlined" aria-hidden="true">calendar_month</span>Besichtigungstermin buchen
               </a>
               <button id="calcReset" class="wizard-reset">&#8592; Neu berechnen</button>
             </div>
@@ -237,23 +238,37 @@
       <div class="container">
         <div class="section-head">
           <p class="eyebrow">Ablauf</p>
-          <h2>Beratung. Festpreis. Fertig.</h2>
+          <h2>Besichtigung. Festpreis. Ausf&uuml;hrung. Abnahme.</h2>
           <p>Kein Raten, kein Nachtelefonieren, keine Preisüberraschungen im Nachgang.</p>
         </div>
-        <div class="grid-3 steps">
+        <div class="grid-4 steps">
           <article class="card step-card">
             <h3>Online grob rechnen</h3>
             <p>Der Kostenrechner liefert in 4 Schritten einen realistischen Preisrahmen &ndash; bevor &uuml;berhaupt jemand anruft.</p>
           </article>
           <article class="card step-card">
-            <h3>Vor Ort aufnehmen</h3>
-            <p>Leitungsf&uuml;hrung, Unterverteilung, Absicherung und Zeitplan werden besichtigt, nicht am Telefon geraten.</p>
+            <h3>Vor Ort besichtigen</h3>
+            <p>Leitungsf&uuml;hrung, Unterverteilung, Absicherung und Zeitplan werden vor Ort aufgenommen &ndash; nicht am Telefon geraten.</p>
           </article>
           <article class="card step-card">
             <h3>Festpreis. Punkt.</h3>
-            <p>Nach der Beratung liegt ein schriftliches Angebot vor. Was drin steht, gilt &ndash; ohne Nachforderung.</p>
+            <p>Nach der Besichtigung liegt ein schriftliches Angebot vor. Was drin steht, gilt &ndash; ohne Nachforderung.</p>
+          </article>
+          <article class="card step-card">
+            <h3>VDE-Abnahme + Schaltplan</h3>
+            <p>Jede Installation wird normgerecht abgenommen, gepr&uuml;ft und vollst&auml;ndig dokumentiert &ndash; das Protokoll geh&ouml;rt zur &Uuml;bergabe.</p>
           </article>
         </div>
+      </div>
+    </section>
+
+    <section class="section section-dark" style="padding: 3.5rem 0;">
+      <div class="container" style="max-width: 720px; text-align: center;">
+        <p class="eyebrow" style="color: rgba(255,255,255,0.45);">Warum kein Angebot am Telefon?</p>
+        <blockquote style="font-size: 1.3rem; font-weight: 700; color: #fff; line-height: 1.6; margin: 1.25rem 0; font-style: normal; border: none; padding: 0;">
+          &bdquo;Steckdose oder Verteilerkasten &mdash; ich schaue zuerst. Wer am Telefon Preise nennt, ohne zu sehen was dahintersteckt, r&auml;t. Das endet mit Nachforderungen oder schlechter Arbeit. Beides ist nicht mein Anspruch.&ldquo;
+        </blockquote>
+        <p style="font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.4);">Franz Ritz &mdash; Meister Elektrotechnikerhandwerk, Koblenz</p>
       </div>
     </section>
 
@@ -383,6 +398,24 @@
               In vielen F&auml;llen ja &ndash; aber es ist sinnvoller, die Leitungsplanung von Anfang an darauf auszulegen. Wir besprechen beim Vor-Ort-Termin, ob eine Vorbereitung f&uuml;r sp&auml;tere Erweiterungen m&ouml;glich und wirtschaftlich sinnvoll ist.
             </div>
           </details>
+          <details style="background: #fff; border: 1px solid #e2e2e2;">
+            <summary style="padding: 1.25rem 1.5rem; cursor: pointer; font-weight: 700; font-size: 1rem; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+              Darf ich Elektroarbeiten selbst durchf&uuml;hren?
+              <span class="material-symbols-outlined" style="flex-shrink:0; color: #d43f3f;">add</span>
+            </summary>
+            <div style="padding: 0 1.5rem 1.25rem; font-size: 0.9375rem; line-height: 1.7; color: #434654;">
+              F&uuml;r alles hinter der Unterverteilung &ndash; also Leitungen, Schalter, Sicherungen, Anschl&uuml;sse &ndash; ist ein eingetragener Elektrobetrieb gesetzlich vorgeschrieben. Kleinigkeiten wie den Austausch einer Steckdose im gleichen Stromkreis sind in Eigenregie m&ouml;glich, aber sobald es in den Z&auml;hlerschrank oder an neue Leitungen geht, ist der Meisterbetrieb keine Empfehlung, sondern Pflicht.
+            </div>
+          </details>
+          <details style="background: #fff; border: 1px solid #e2e2e2;">
+            <summary style="padding: 1.25rem 1.5rem; cursor: pointer; font-weight: 700; font-size: 1rem; list-style: none; display: flex; justify-content: space-between; align-items: center;">
+              Was passiert, wenn meine Unterverteilung veraltet ist?
+              <span class="material-symbols-outlined" style="flex-shrink:0; color: #d43f3f;">add</span>
+            </summary>
+            <div style="padding: 0 1.5rem 1.25rem; font-size: 0.9375rem; line-height: 1.7; color: #434654;">
+              Viele Unterverteilungen aus den 1970er bis 1990er Jahren entsprechen nicht mehr dem aktuellen VDE-Standard &ndash; fehlende FI-Schutzschalter, unterdimensionierte Leitungen oder keine Beschriftung sind typische Befunde. Beim Vor-Ort-Termin prüfen wir den Zustand und nennen Ihnen einen konkreten Handlungsbedarf. Eine Nachr&uuml;stung ist oft weniger aufwändig als bef&uuml;rchtet.
+            </div>
+          </details>
         </div>
       </div>
     </section>
@@ -430,12 +463,12 @@
     <section class="section section-dark">
       <div class="container cta-band">
         <div>
-          <h2>Beratung buchen. Festpreis erhalten. Fertig.</h2>
+          <h2>Besichtigung buchen. Festpreis erhalten. Fertig.</h2>
           <p>Beratung ist kostenlos. Wir melden uns innerhalb von 24 Stunden mit einem konkreten Vorschlag.</p>
         </div>
         <div class="cta-actions">
-          <a class="button button-light" href="kontakt.html">Kontaktseite &ouml;ffnen</a>
-          <a class="button button-red" href="kontakt.html">Beratung buchen</a>
+          <a class="button button-light" href="https://calendly.com/elektro-ritz-koblenz/beratung" target="_blank" rel="noopener noreferrer">Besichtigungstermin anfragen</a>
+          <a class="button button-red" href="https://calendly.com/elektro-ritz-koblenz/beratung" target="_blank" rel="noopener noreferrer">Besichtigung buchen</a>
         </div>
       </div>
     </section>

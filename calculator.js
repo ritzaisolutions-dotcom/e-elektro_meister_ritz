@@ -1,5 +1,5 @@
 (function () {
-  var state = { step: 1, projekt: null, flaeche: null, material: null, extras: [] };
+  var state = { step: 1, projekt: null, projekttyp: null, units: 5, extras: [] };
 
   var PROJECTS = [
     { id: 'steckdosen',   label: 'Steckdosen / Schalter',    icon: 'electrical_services', multi: 0.90 },
@@ -9,16 +9,16 @@
     { id: 'neuinstall',   label: 'Neuinstallation komplett',  icon: 'bolt',                multi: 1.80 }
   ];
 
-  var MATERIALS = [
-    { id: 'basis',    label: 'Basis',    sub: 'Standardausstattung ca. 25 €/m²',  price: 25 },
-    { id: 'komfort',  label: 'Komfort',  sub: 'Erweitert ca. 45 €/m²',             price: 45 },
-    { id: 'premium',  label: 'Premium',  sub: 'Smart Home ca. 75 €/m²',            price: 75 }
+  var PROJEKTTYP = [
+    { id: 'neubau',         label: 'Neubau',          sub: 'Vollständige Neuinstallation',    basePerUnit: 450 },
+    { id: 'sanierung',      label: 'Sanierung',        sub: 'Umbau / Erweiterung bestehend',        basePerUnit: 320 },
+    { id: 'einzelleistung', label: 'Einzelleistung',   sub: 'Einzelne Schaltpunkte / Geräte',  basePerUnit: 180 }
   ];
 
   var EXTRAS = [
-    { id: 'unterputz', label: 'Unterputzverlegung (aufwändig)', price: 15 },
-    { id: 'smarthome', label: 'Smart Home Integration',               price: 20 },
-    { id: 'notstrom',  label: 'Notstromanbindung / USV',              price: 10 }
+    { id: 'unterputz', label: 'Unterputzverlegung (aufwändig)', pricePerUnit: 50,  priceFlat: 0   },
+    { id: 'smarthome', label: 'Smart Home Integration',               pricePerUnit: 80,  priceFlat: 0   },
+    { id: 'notstrom',  label: 'Notstromanbindung / USV',              pricePerUnit: 0,   priceFlat: 300 }
   ];
 
   var pg = document.getElementById('calcProjectCards');
@@ -40,49 +40,62 @@
     pg.appendChild(btn);
   });
 
-  var mg = document.getElementById('calcMaterialCards');
-  MATERIALS.forEach(function (m) {
-    var btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'wizard-mat-card';
-    btn.innerHTML =
-      '<span class="wizard-mat-name">' + m.label + '</span>' +
-      '<span class="wizard-mat-sub">' + m.sub + '</span>';
-    btn.addEventListener('click', function () {
-      state.material = m.id;
-      mg.querySelectorAll('.wizard-mat-card').forEach(function (c) { c.classList.remove('selected'); });
-      btn.classList.add('selected');
-      var err = document.getElementById('calcStep2Error');
-      if (err) err.classList.remove('visible');
+  var tg = document.getElementById('calcProjektTypCards');
+  if (tg) {
+    PROJEKTTYP.forEach(function (t) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'wizard-mat-card';
+      btn.innerHTML =
+        '<span class="wizard-mat-name">' + t.label + '</span>' +
+        '<span class="wizard-mat-sub">' + t.sub + '</span>';
+      btn.addEventListener('click', function () {
+        state.projekttyp = t.id;
+        tg.querySelectorAll('.wizard-mat-card').forEach(function (c) { c.classList.remove('selected'); });
+        btn.classList.add('selected');
+        var err = document.getElementById('calcStep2Error');
+        if (err) err.classList.remove('visible');
+      });
+      tg.appendChild(btn);
     });
-    mg.appendChild(btn);
-  });
+  }
+
+  var slider = document.getElementById('wizUnits');
+  var sliderLabel = document.getElementById('wizUnitsLabel');
+  if (slider && sliderLabel) {
+    slider.addEventListener('input', function () {
+      state.units = parseInt(slider.value, 10);
+      sliderLabel.textContent = slider.value;
+    });
+  }
 
   var eg = document.getElementById('calcExtrasCards');
-  EXTRAS.forEach(function (e) {
-    var btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'wizard-extra-btn';
-    btn.innerHTML =
-      '<span class="wizard-extra-name">' + e.label + '</span>' +
-      '<span class="wizard-extra-price">+ ' + e.price + ' €/m²</span>';
-    btn.addEventListener('click', function () {
-      var i = state.extras.indexOf(e.id);
-      if (i === -1) { state.extras.push(e.id); btn.classList.add('selected'); }
-      else { state.extras.splice(i, 1); btn.classList.remove('selected'); }
+  if (eg) {
+    EXTRAS.forEach(function (e) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'wizard-extra-btn';
+      var priceLabel = e.priceFlat > 0 ? '+ ' + e.priceFlat + ' € pausch.' : '+ ' + e.pricePerUnit + ' €/Einh.';
+      btn.innerHTML =
+        '<span class="wizard-extra-name">' + e.label + '</span>' +
+        '<span class="wizard-extra-price">' + priceLabel + '</span>';
+      btn.addEventListener('click', function () {
+        var i = state.extras.indexOf(e.id);
+        if (i === -1) { state.extras.push(e.id); btn.classList.add('selected'); }
+        else { state.extras.splice(i, 1); btn.classList.remove('selected'); }
+      });
+      eg.appendChild(btn);
     });
-    eg.appendChild(btn);
-  });
+  }
 
   function goTo(n) {
     if (n === 3) {
-      var fl = parseFloat(document.getElementById('wizFlaeche').value);
-      if (!fl || fl < 1 || !state.material) {
+      if (!state.projekttyp) {
         var err = document.getElementById('calcStep2Error');
         if (err) err.classList.add('visible');
         return;
       }
-      state.flaeche = fl;
+      state.units = parseInt(document.getElementById('wizUnits').value, 10) || 5;
     }
     if (n === 4) { computeResult(); }
     state.step = n;
@@ -97,21 +110,23 @@
   }
 
   function computeResult() {
-    var mat  = MATERIALS.filter(function (m) { return m.id === state.material; })[0];
+    var pt   = PROJEKTTYP.filter(function (t) { return t.id === state.projekttyp; })[0];
     var proj = PROJECTS.filter(function (p) { return p.id === state.projekt; })[0];
-    var base = state.flaeche * (mat ? mat.price : 25) * (proj ? proj.multi : 1);
+    var base = state.units * (pt ? pt.basePerUnit : 320) * (proj ? proj.multi : 1);
     EXTRAS.forEach(function (e) {
-      if (state.extras.indexOf(e.id) !== -1) base += state.flaeche * e.price;
+      if (state.extras.indexOf(e.id) !== -1) {
+        base += e.priceFlat > 0 ? e.priceFlat : state.units * e.pricePerUnit;
+      }
     });
     var min = Math.round(base * 0.93 / 10) * 10;
     var max = Math.round(base * 1.12 / 10) * 10;
     var out = document.getElementById('wizPriceOutput');
-    if (out) out.textContent = '€ ' + min.toLocaleString('de-DE') + ' – € ' + max.toLocaleString('de-DE');
+    if (out) out.textContent = '€ ' + min.toLocaleString('de-DE') + ' – € ' + max.toLocaleString('de-DE');
     var sum = document.getElementById('calcSummaryText');
     if (sum) sum.textContent =
       (proj ? proj.label : '') + ' · ' +
-      state.flaeche + ' m² · ' +
-      (mat ? mat.label : '') +
+      state.units + ' Räume/Schaltpunkte · ' +
+      (pt ? pt.label : '') +
       (state.extras.length ? ' · inkl. Zusatzleistungen' : '');
   }
 
@@ -143,11 +158,13 @@
   if (backBtn)  backBtn.addEventListener('click',  function () { goTo(state.step - 1); });
   if (nextBtn)  nextBtn.addEventListener('click',  function () { goTo(state.step + 1); });
   if (resetBtn) resetBtn.addEventListener('click', function () {
-    state = { step: 1, projekt: null, flaeche: null, material: null, extras: [] };
+    state = { step: 1, projekt: null, projekttyp: null, units: 5, extras: [] };
     document.querySelectorAll('.wizard-proj-card, .wizard-mat-card, .wizard-extra-btn')
       .forEach(function (c) { c.classList.remove('selected'); });
-    var inp = document.getElementById('wizFlaeche');
-    if (inp) inp.value = '';
+    var sl = document.getElementById('wizUnits');
+    if (sl) sl.value = 5;
+    var lb = document.getElementById('wizUnitsLabel');
+    if (lb) lb.textContent = '5';
     goTo(1);
   });
 }());
